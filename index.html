@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <title>CS Academy</title>
+    <link rel="stylesheet" type="text/css" href="maincss.css">
+    
+</head>
+<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <py-config>
+        plugins = [
+          "https://pyscript.net/latest/plugins/python/py_tutor.py"
+        ]
+        packages = ["cryptography"]
+    </py-config>
+
+    
+    <body>
+        <section class="pyscript">
+            <py-script>
+                from cryptography.fernet import Fernet
+                import random
+                
+                password = input("")
+                
+                def xor_encode(text):
+                    encoded = []
+                    encryption_key = random.randint(1, 1000000)
+                    for char in text:
+                        encoded_char = chr((ord(char) ^ encryption_key)%128)
+                        encoded.append(encoded_char)
+                    return ''.join(encoded),  encryption_key
+                
+                def xor_decode_new(encoded_text, password):
+                    for i in range(1000000):
+                        decoded = []
+                        for char in encoded_text:
+                            decoded_char = chr(ord(char) ^ i)
+                            decoded.append(decoded_char)
+                            decodedattempt = ''.join(decoded)
+                        print(f'Trial {i} : {decodedattempt}')
+                        if ''.join(decoded) == password:
+                            return ''.join(decoded)
+                        
+                        # return ''.join(decoded)
+                    return None
+                
+                
+                a, b = xor_encode(password)
+                print('The encrypted cipher is: ' + str(a))
+        
+                print( 'The decrypted cipher is: ' + str(xor_decode_new(a, password)))
+            </py-script>
+
+ 
+<body style="background-color: rgb(255, 255, 255); text-align: left; margin: 0px;">
+    <div class="parentContainer">
+        <img src="oNe.jpg" class="top-left" width="1440" height="40" alt="Landscape">
+        <a class="btcDesign" href="https://bobofishbo.github.io/csacademy-units/">Back to course</a>
+    </div>
+
+    <!--sidebar-->
+    <div class="sidebar">
+        <a class="active" href="#home" onclick="showContent('home')" style="font-size: 20px">| Home</a>
+        <a href="#surprise1" onclick="showContent('news')">| &#160 &#160 &#160 surprise 1</a>
+
+    </div>
+
+    <!-- Page content -->
+
+    <div class="content" id="homeContent">
+        <header>
+            <h1>1.3 xOR with key generation</h1>
+            <div class="dotted-line"></div>
+            <p><br>
+            But how can we decipher a ciphertext without the key? This is where we introduce key generation<br /> 
+            where we encode the plain text in the same way and then must find the key that gets the desired<br />
+            plaintext. This algorithm uses a trial and error process to find the right key that is based on <br />
+            random string building.<br />
+            <br>
+            The instructions are as follows:<br /></p>
+            <p style="text-indent: 20px">
+            1. If the form resubmission appears at the top, type in your password</p>
+            <p style="text-indent: 20px">of choice into the module (else press the reload button at the top)</p>
+            <p style="text-indent: 20px">2. Click OK</p>
+            <p style="text-indent: 20px">3. Then at the bottom of the screen you will see the encoded cipher</p>
+            <p style="text-indent: 20px">text and the decoded plain text
+            </p>
+
+        </header>
+        
+        <button class="buttonClass" onclick="nextSection('news')">Next Section</button>
+    </div>
+    <div class="content" id="newsContent" style="display: none;">
+        <img src="lol.png" height = 500px width=500px>
+        <div class="dotted-line"></div>
+        <p style="size: 80px;"> ME WHEN I WAS THINKING TOO HARD AND FORGOT TO SUBMIT THE POLL IN TIME</p>
+        <a href="https://bobofishbo.github.io/csacademy-units/" target="_blank">
+            <button class="buttonClass">Back to Lessons</button>
+        </a>
+    </div>
+    
+    <script>
+        // Get references to the input field, button, and output paragraph
+        var myText = document.getElementById("myText");
+        var submitBtn = document.getElementById("submitBtn");
+        var output = document.getElementById("output");
+
+        // Add a click event listener to the button
+        submitBtn.addEventListener("click", function() {
+            // Get the value of the input field
+            var inputValue = myText.value;
+
+            // Display the input value and clear the input field
+            output.textContent = "You entered: " + inputValue;
+            myText.value = ""; // Clear the input field
+        });
+    </script>
+
+
+    <script>
+        function showContent(contentId) {
+    // Hide all content elements
+    var contentElements = document.querySelectorAll('.content');
+    contentElements.forEach(function (element) {
+        element.style.display = 'none';
+    });
+
+    // Show the selected content element
+    var selectedContent = document.getElementById(contentId + 'Content');
+    if (selectedContent) {
+        selectedContent.style.display = 'block';
+    }
+
+    // Remove the 'active' class from all menu items
+    var menuItems = document.querySelectorAll('.sidebar a');
+    menuItems.forEach(function (item) {
+        item.classList.remove('active');
+    });
+
+    // Add the 'active' class to the clicked menu item
+    var clickedMenuItem = document.querySelector('.sidebar a[href="#' + contentId + '"]');
+    if (clickedMenuItem) {
+        clickedMenuItem.classList.add('active');
+    }
+}
+
+function nextSection(nextContentId) {
+    // Hide all content elements
+    var contentElements = document.querySelectorAll('.content');
+    contentElements.forEach(function (element) {
+        element.style.display = 'none';
+    });
+
+    // Show the selected content element
+    var selectedContent = document.getElementById(nextContentId + 'Content');
+    if (selectedContent) {
+        selectedContent.style.display = 'block';
+    }
+
+    // Remove the 'active' class from all menu items
+    var menuItems = document.querySelectorAll('.sidebar a');
+    menuItems.forEach(function (item) {
+        item.classList.remove('active');
+    });
+
+    // Add the 'active' class to the clicked menu item
+    var clickedMenuItem = document.querySelector('.sidebar a[href="#' + nextContentId + '"]');
+    if (clickedMenuItem) {
+        clickedMenuItem.classList.add('active');
+    }
+}
+
+
+    </script>
+</body>
+</html>
